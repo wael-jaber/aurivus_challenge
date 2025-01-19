@@ -25,6 +25,7 @@
     "playwright.config.ts",
     "test_setup/vitest_setup.ts",
     "test_setup/playwright_teardown.ts",
-    "test_setup/playwright_setup.ts"
+    "test_setup/playwright_setup.ts",
+    "tailwind.config.js"
   ]
 }
