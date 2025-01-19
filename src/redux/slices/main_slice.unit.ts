@@ -1,33 +1,37 @@
-import { describe, it, expect } from 'vitest';
-import reducer, {
-  createCells,
-  toggleCellVisibility,
-  cellHighlightOn,
-  cellHighlightOff,
-  setCols,
-  setRows,
-  setImage,
-} from './main_slice';
+import { beforeAll, describe, expect, it } from 'vitest';
+import { enableMapSet } from 'immer';
 
 describe('mainSlice', () => {
-  const initialState = {
-    cells: [],
-    cols: 1,
-    rows: 1,
-    appliedCellNumber: 0,
-    image: null,
-  };
-
-  it('should return the initial state', () => {
-    expect(reducer(undefined, { type: undefined })).toEqual(initialState);
+  beforeAll(() => {
+    // Enable Map and Set support for Immer, else tests will fail
+    enableMapSet();
   });
 
-  it('should handle createCells', () => {
-    const cellCount = 5;
-    const nextState = reducer(initialState, createCells(cellCount));
-    expect(nextState.cells).toHaveLength(cellCount);
-    expect(nextState.appliedCellNumber).toBe(cellCount);
-    expect(nextState.cells[0]).toEqual({
+  it('should initialize with the correct initial state', async () => {
+    const mainSlice = await import('./main_slice');
+    const reducer = mainSlice.default;
+
+    const initialState = reducer(undefined, { type: '@@INIT' });
+    expect(initialState).toEqual({
+      cells: new Map(),
+      cols: 1,
+      appliedCols: 1,
+      rows: 1,
+      appliedRows: 1,
+      appliedCellNumber: 0,
+      image: null,
+    });
+  });
+
+  it('should create cells correctly', async () => {
+    const mainSlice = await import('./main_slice');
+    const reducer = mainSlice.default;
+    const actions = mainSlice;
+
+    const state = reducer(undefined, actions.createCells(5));
+    expect(state.appliedCellNumber).toBe(5);
+    expect(state.cells.size).toBe(5);
+    expect(state.cells.get(0)).toEqual({
       id: 0,
       label: 'Cell 1',
       hidden: false,
@@ -35,43 +39,76 @@ describe('mainSlice', () => {
     });
   });
 
-  it('should handle toggleCellVisibility', () => {
-    const initial = reducer(initialState, createCells(3));
-    const nextState = reducer(initial, toggleCellVisibility(1));
-    expect(nextState.cells[1].hidden).toBe(true);
+  it('should toggle cell visibility correctly', async () => {
+    const mainSlice = await import('./main_slice');
+    const reducer = mainSlice.default;
+    const actions = mainSlice;
 
-    const revertedState = reducer(nextState, toggleCellVisibility(1));
-    expect(revertedState.cells[1].hidden).toBe(false);
+    let state = reducer(undefined, actions.createCells(2));
+    state = reducer(state, actions.toggleCellVisibility(0));
+
+    expect(state.cells.get(0)?.hidden).toBe(true);
+
+    state = reducer(state, actions.toggleCellVisibility(0));
+    expect(state.cells.get(0)?.hidden).toBe(false);
   });
 
-  it('should handle cellHighlightOn', () => {
-    const initial = reducer(initialState, createCells(3));
-    const nextState = reducer(initial, cellHighlightOn(2));
-    expect(nextState.cells[2].highlighted).toBe(true);
+  it('should toggle cell highlight on correctly', async () => {
+    const mainSlice = await import('./main_slice');
+    const reducer = mainSlice.default;
+    const actions = mainSlice;
+
+    let state = reducer(undefined, actions.createCells(3));
+    state = reducer(state, actions.cellHighlightOn(1));
+
+    expect(state.cells.get(1)?.highlighted).toBe(true);
   });
 
-  it('should handle cellHighlightOff', () => {
-    const initial = reducer(initialState, createCells(3));
-    const highlightedState = reducer(initial, cellHighlightOn(2));
-    const nextState = reducer(highlightedState, cellHighlightOff(2));
-    expect(nextState.cells[2].highlighted).toBe(false);
+  it('should toggle cell highlight off correctly', async () => {
+    const mainSlice = await import('./main_slice');
+    const reducer = mainSlice.default;
+    const actions = mainSlice;
+
+    let state = reducer(undefined, actions.createCells(3));
+    state = reducer(state, actions.cellHighlightOn(1));
+    state = reducer(state, actions.cellHighlightOff(1));
+
+    expect(state.cells.get(1)?.highlighted).toBe(false);
   });
 
-  it('should handle setCols', () => {
-    const cols = 5;
-    const nextState = reducer(initialState, setCols(cols));
-    expect(nextState.cols).toBe(cols);
+  it('should set cols and rows correctly', async () => {
+    const mainSlice = await import('./main_slice');
+    const reducer = mainSlice.default;
+    const actions = mainSlice;
+
+    let state = reducer(undefined, actions.setCols(10));
+    expect(state.cols).toBe(10);
+
+    state = reducer(state, actions.setRows(20));
+    expect(state.rows).toBe(20);
   });
 
-  it('should handle setRows', () => {
-    const rows = 4;
-    const nextState = reducer(initialState, setRows(rows));
-    expect(nextState.rows).toBe(rows);
+  it('should apply cols and rows correctly', async () => {
+    const mainSlice = await import('./main_slice');
+    const reducer = mainSlice.default;
+    const actions = mainSlice;
+
+    let state = reducer(undefined, actions.setCols(10));
+    state = reducer(state, actions.setRows(20));
+    state = reducer(state, actions.applyColsAndRows());
+
+    expect(state.appliedCols).toBe(10);
+    expect(state.appliedRows).toBe(20);
   });
 
-  it('should handle setImage', () => {
-    const image = 'data:image/png;base64,sampleImageData';
-    const nextState = reducer(initialState, setImage(image));
-    expect(nextState.image).toBe(image);
+  it('should set the image correctly', async () => {
+    const mainSlice = await import('./main_slice');
+    const reducer = mainSlice.default;
+    const actions = mainSlice;
+
+    const testImage = 'data:image/png;base64,...';
+    const state = reducer(undefined, actions.setImage(testImage));
+
+    expect(state.image).toBe(testImage);
   });
 });
