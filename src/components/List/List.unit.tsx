@@ -8,7 +8,7 @@ type MockItem = {
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
-const MockItemRender: React.FC<MockItem & ListItemRendererProps> = ({
+const MockItemRender: React.FC<ListItemRendererProps<MockItem>> = ({
   id,
   name,
   onMouseEnter,

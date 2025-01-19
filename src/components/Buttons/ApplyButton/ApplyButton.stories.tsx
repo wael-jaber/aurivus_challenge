@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
 
 import { ApplyButton } from './ApplyButton';
 
@@ -11,8 +10,6 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
-
-  args: { onImageUpload: fn() },
 } satisfies Meta<typeof ApplyButton>;
 
 export default meta;

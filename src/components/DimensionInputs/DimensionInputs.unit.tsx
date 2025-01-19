@@ -1,7 +1,7 @@
 import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, afterEach, describe, it, expect, vi } from 'vitest';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { DimensionInputs } from './DimensionInputs';
 
 describe('DimensionInputs', () => {
