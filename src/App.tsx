@@ -1,34 +1,21 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import React from 'react';
 import './App.css';
+import { LeftPanel } from './containers';
+import { Provider } from 'react-redux';
+import { store } from './redux';
 
-function App() {
-  const [count, setCount] = useState(0);
-
+function App(): React.ReactElement {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <Provider store={store}>
+      <div className="flex h-screen w-screen">
+        <div className="w-2/12 min-w-44 bg-gray-100 border-r border-gray-300">
+          <LeftPanel />
+        </div>
+        <div className="w-10/12 bg-white">
+          <div className="p-4">Right Panel</div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </Provider>
   );
 }
 
