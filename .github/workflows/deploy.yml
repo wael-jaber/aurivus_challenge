@@ -1,0 +1,34 @@
+name: Deploy React App and Storybook
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build React App
+        run: pnpm build
+
+      - name: Deploy React App
+        run: pnpm deploy-react
+
+      - name: Build Storybook
+        run: pnpm build-storybook
+
+      - name: Deploy Storybook
+        run: pnpm deploy-storybook

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import { List } from './List';
-import { ListItem, ListItemProps } from '../ListItem';
+import { ListItem } from '../ListItem';
 
 const meta = {
   title: 'components/List',
@@ -15,10 +15,12 @@ const meta = {
     onItemClick: fn(),
     onItemMouseEnter: fn(),
     onItemMouseLeave: fn(),
-    ItemRender: (props: ListItemProps) => (
+    // TODO : messed up typing must fix the component which has a bug
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ItemRender: (props: any) => (
       <ListItem
-        index={props.index}
-        key={props.index}
+        index={props.id}
+        key={props.id}
         label={props.label}
         hidden={props.hidden}
         onClick={props.onClick}

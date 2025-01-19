@@ -1,19 +1,19 @@
 import React from 'react';
 
-export type ListItemRendererProps = {
+export type ListItemRendererProps<T> = {
   /** item onMouseEnter event callback */
   onMouseEnter: (id: number) => void;
   /** item onMouseLeave event callback */
   onMouseLeave: (id: number) => void;
   /** item onClick event callback */
   onClick: (id: number) => void;
-};
+} & T;
 
 export interface ListProps<T> {
   /** Array of items for the list */
   items: T[];
   /** renderer component for the items */
-  ItemRender: React.FC<T & ListItemRendererProps>;
+  ItemRender: React.FC<ListItemRendererProps<T>>;
   /** item OnClick event callback */
   onItemClick: (index: number) => void;
   /** item onMouseEnter event callback */

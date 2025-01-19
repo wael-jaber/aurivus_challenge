@@ -12,5 +12,9 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
+  viteFinal: (config) => {
+    config.base = '/aurivus_challenge/storybook/'; // Adjust path for Storybook
+    return config;
+  },
 };
 export default config;
