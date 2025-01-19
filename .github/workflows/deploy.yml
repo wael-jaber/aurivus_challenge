@@ -32,14 +32,23 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
       - name: Build React App
         run: pnpm build
 
       - name: Deploy React App
-        run: pnpm deploy-react
+        env:
+          GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh-pages -d dist -r https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
 
       - name: Build Storybook
         run: pnpm build-storybook
 
       - name: Deploy Storybook
-        run: pnpm deploy-storybook
+        env:
+          GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh-pages -d storybook-static -r https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
