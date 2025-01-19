@@ -1,6 +1,7 @@
 # Aurivus Challenge 🚀
 
-![example branch parameter](https://github.com/wael-jaber/aurivus_challenge/actions/workflows/ci.yaml/badge.svg?branch=main)
+![example branch parameter](https://github.com/wael-jaber/aurivus_challenge/actions/workflows/ci.yml/badge.svg?branch=main)
+![Codecov](https://codecov.io/gh/wael-jaber/aurivus_challenge/branch/main/graph/badge.svg)
 
 Welcome to the **Aurivus Challenge**! This is a React-based web application that overlays an NxM raster grid on a static image, allowing users to interact with grid cells through a sleek vertical list view. 🖼️📐
 

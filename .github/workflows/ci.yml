@@ -37,7 +37,7 @@ jobs:
         run: pnpm install
 
       - name: Run tests with Coverage
-        run: pnpm run test -- --coverage
+        run: pnpm coverage
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
@@ -46,6 +46,7 @@ jobs:
           files: coverage/lcov.info
           flags: unittests
           name: code-coverage
+          slug: wael-jaber/aurivus_challenge
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps

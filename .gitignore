@@ -26,3 +26,4 @@ dist-ssr
 # artifacts
 playwright-report
 test-results
+coverage
