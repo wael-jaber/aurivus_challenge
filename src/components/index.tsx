@@ -12,3 +12,9 @@ export type { DimensionInputsProps } from './DimensionInputs';
 
 export { ApplyButton } from './Buttons';
 export type { ApplyButtonProps } from './Buttons';
+
+export { Cell } from './Cell';
+export type { CellProps } from './Cell';
+
+export { RasterDefaultCell, CellRaster } from './CellRaster';
+export type { CellRasterProps } from './CellRaster';

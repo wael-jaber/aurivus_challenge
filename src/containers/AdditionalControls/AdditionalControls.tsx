@@ -5,6 +5,7 @@ import {
   setCols,
   setRows,
   setImage,
+  applyColsAndRows,
 } from '../../redux/slices/main_slice';
 import { AppDispatch, RootState } from '../../redux';
 import { ImageUploader, DimensionInputs, ApplyButton } from '../../components';
@@ -29,6 +30,10 @@ export function AdditionalControls(): React.ReactElement {
       if (reader.result) {
         dispatch(setImage(reader.result as string));
         setImageDimensions(dimensions);
+        dispatch(setCols(1));
+        dispatch(setRows(1));
+        dispatch(createCells(1));
+        dispatch(applyColsAndRows());
       }
     };
     reader.readAsDataURL(file);
@@ -37,6 +42,7 @@ export function AdditionalControls(): React.ReactElement {
   const handleApplyClick = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(createCells(rows * cols));
+    dispatch(applyColsAndRows());
   };
 
   const isApplyButtonDisabled = () => {

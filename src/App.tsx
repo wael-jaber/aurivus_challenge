@@ -1,8 +1,12 @@
 import React from 'react';
 import './App.css';
-import { LeftPanel } from './containers';
+import { LeftPanel, RightPanel } from './containers';
 import { Provider } from 'react-redux';
 import { store } from './redux';
+import { enableMapSet } from 'immer';
+
+// Enable Map and Set support for Immer
+enableMapSet();
 
 function App(): React.ReactElement {
   return (
@@ -12,7 +16,7 @@ function App(): React.ReactElement {
           <LeftPanel />
         </div>
         <div className="w-10/12 bg-white">
-          <div className="p-4">Right Panel</div>
+          <RightPanel />
         </div>
       </div>
     </Provider>

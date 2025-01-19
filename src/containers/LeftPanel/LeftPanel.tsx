@@ -27,7 +27,7 @@ export function LeftPanel(): React.ReactElement {
 
   return (
     <List
-      items={cells}
+      items={Array.from(cells.values())}
       onItemClick={handleItemClick}
       onItemMouseEnter={handleItemMouseEnter}
       onItemMouseLeave={handleItemMouseLeave}
