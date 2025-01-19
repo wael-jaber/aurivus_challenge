@@ -10,12 +10,14 @@ export interface CellRasterProps<T extends Cell> {
 }
 
 export const RasterDefaultCell: React.FC<Cell> = ({
+  id,
   label,
   hidden,
   highlighted,
 }) => {
   return (
     <div
+      data-testid={`raster-cell-${id}`}
       className="flex items-center justify-center border border-gray-300"
       style={{ width: '100%', height: '100%' }}
     >
@@ -44,19 +46,22 @@ export const CellRaster = <T extends Cell>({
 
   // Dynamically calculate the aspect ratio of the image
   useEffect(() => {
+    if (!image) return;
+
     const img = new Image();
-    img.src = image ?? '';
+    img.src = image;
     img.onload = () => {
       setAspectRatio(img.width / img.height);
     };
   }, [image]);
 
   if (aspectRatio === null) {
-    return <div>Loading...</div>; // Show a loading state while calculating the aspect ratio
+    return <div data-testid="raster-loading">Loading...</div>; // Show a loading state while calculating the aspect ratio
   }
 
   return (
     <div
+      data-testid="raster-container"
       className="grid"
       style={{
         display: 'grid',
@@ -64,8 +69,8 @@ export const CellRaster = <T extends Cell>({
         gridTemplateRows: `repeat(${rows}, 1fr)`,
         width: '100%',
         aspectRatio: `${aspectRatio}`,
-        backgroundImage: `url(${image})`,
-        backgroundSize: 'contain', // Ensure the full image is always visible
+        backgroundImage: image ? `url(${image})` : undefined,
+        backgroundSize: 'contain',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
       }}
