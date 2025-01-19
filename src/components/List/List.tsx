@@ -33,9 +33,16 @@ export const List = <T,>({
   AdditionalControl,
 }: ListProps<T>): JSX.Element => {
   return (
-    <div className="w-full h-full flex flex-col">
-      {AdditionalControl ? <AdditionalControl /> : null}
-      <ul className="w-full flex-grow max-h-full overflow-y-auto list-none">
+    <div className="w-full h-full flex flex-col" data-testid="list-container">
+      {AdditionalControl ? (
+        <div data-testid="additional-control">
+          <AdditionalControl />
+        </div>
+      ) : null}
+      <ul
+        className="w-full flex-grow max-h-full overflow-y-auto list-none"
+        data-testid="list-items"
+      >
         {items.map((item, index) => (
           <ItemRender
             key={index}
@@ -43,6 +50,7 @@ export const List = <T,>({
             onMouseEnter={() => onItemMouseEnter(index)}
             onMouseLeave={() => onItemMouseLeave(index)}
             onClick={() => onItemClick(index)}
+            data-testid={`list-item-${index}`}
           />
         ))}
       </ul>

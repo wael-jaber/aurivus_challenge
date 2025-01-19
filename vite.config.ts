@@ -8,7 +8,7 @@ export default defineConfig({
     port: 5173,
   },
   test: {
-    include: ['src/**/*.unit.tsx', 'src/**/*.integration.tsx'],
+    include: ['src/**/*.unit.{ts,tsx}', 'src/**/*.integration.{ts,tsx}'], // Include both .ts and .tsx files
     globals: true,
     environment: 'jsdom',
     setupFiles: './test_setup/vitest_setup.ts',
@@ -16,7 +16,7 @@ export default defineConfig({
       provider: 'c8',
       reporter: ['text', 'html'],
       include: ['src/**/*.ts', 'src/**/*.tsx'],
-      exclude: ['src/**/*.unit.tsx', 'src/**/*.integration.tsx'],
+      exclude: ['src/**/*.unit.{ts,tsx}', 'src/**/*.integration.{ts,tsx}'],
     },
   },
 });

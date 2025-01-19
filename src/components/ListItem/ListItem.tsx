@@ -26,25 +26,38 @@ export const ListItem: React.FC<ListItemProps> = ({
 }) => {
   return (
     <li
-      className={`flex items-center p-1 transition rounded-md
-                ${hidden ? 'hover:bg-blue-50' : 'hover:bg-blue-100'}`}
+      className={`flex items-center p-1 transition rounded-md ${
+        hidden ? 'hover:bg-blue-50' : 'hover:bg-blue-100'
+      }`}
       onMouseEnter={() => onMouseEnter(index)}
       onMouseLeave={() => onMouseLeave(index)}
+      data-testid={`list-item-${index}`}
     >
       <button
         onClick={() => onClick(index)}
         className="flex items-center w-full bg-transparent"
         aria-label={`Toggle visibility for ${label}`}
+        data-testid={`toggle-button-${index}`}
       >
         {hidden ? (
           <>
-            <EyeSlashIcon className="w-5 h-5 text-black mr-3" />
-            <span className="text-gray-800">{label}</span>
+            <EyeSlashIcon
+              className="w-5 h-5 text-black mr-3"
+              data-testid={`eye-slash-icon-${index}`}
+            />
+            <span className="text-gray-800" data-testid={`label-${index}`}>
+              {label}
+            </span>
           </>
         ) : (
           <>
-            <EyeIcon className="w-5 h-5 text-black mr-3" />
-            <span className="text-gray-500">{label}</span>
+            <EyeIcon
+              className="w-5 h-5 text-black mr-3"
+              data-testid={`eye-icon-${index}`}
+            />
+            <span className="text-gray-500" data-testid={`label-${index}`}>
+              {label}
+            </span>
           </>
         )}
       </button>

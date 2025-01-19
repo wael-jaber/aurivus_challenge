@@ -28,22 +28,23 @@ export function DimensionInputs({
 
   // Validates whether the input value is within the acceptable range
   const validateInput = (value: number, type: 'rows' | 'cols') => {
-    if (!imageDimensions) return false; // Skip validation if no image is uploaded
-    const max =
-      type === 'rows' ? imageDimensions.height : imageDimensions.width;
-    return value < 1 || value >= max; // Valid if value < 1 or exceeds max
+    if (imageDimensions) {
+      const max =
+        type === 'rows' ? imageDimensions.height : imageDimensions.width;
+      return value < 1 || value >= max;
+    }
+    return false;
   };
 
-  // Handles changes to the input fields and applies validation
   const handleInputChange =
     (setter: (value: number) => void, type: 'rows' | 'cols') =>
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      const value = Number(event.target.value); // Convert input to a number
+      const value = Number(event.target.value);
       if (!isNaN(value)) {
-        setter(value); // Update the value in the parent component
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [type]: validateInput(value, type), // Update the error state
+        setter(value);
+        setErrors((prev) => ({
+          ...prev,
+          [type]: validateInput(value, type),
         }));
       }
     };
@@ -57,6 +58,7 @@ export function DimensionInputs({
         </label>
         <input
           id="rows"
+          data-testid="rows-input"
           type="number"
           className={`border text-black rounded px-2 py-1 text-sm w-full ${
             errors.rows ? 'border-red-500' : 'border-gray-300'
@@ -66,9 +68,9 @@ export function DimensionInputs({
           disabled={!imageDimensions} // Disabled until image is uploaded
         />
         {errors.rows && imageDimensions && (
-          <span className="text-red-500 text-xs mt-1">
+          <span data-testid="rows-error" className="text-red-500 text-xs mt-1">
             Value must be between 1 and {imageDimensions.height - 1}
-          </span> // Error message for invalid rows input
+          </span>
         )}
       </div>
 
@@ -79,16 +81,17 @@ export function DimensionInputs({
         </label>
         <input
           id="cols"
+          data-testid="cols-input"
           type="number"
           className={`border text-black rounded px-2 py-1 text-sm w-full ${
             errors.cols ? 'border-red-500' : 'border-gray-300'
-          }`} // Red border if cols validation fails
+          }`}
           value={cols}
           onChange={handleInputChange(onColsChange, 'cols')}
-          disabled={!imageDimensions} // Disabled until image is uploaded
+          disabled={!imageDimensions}
         />
         {errors.cols && imageDimensions && (
-          <span className="text-red-500 text-xs mt-1">
+          <span data-testid="cols-error" className="text-red-500 text-xs mt-1">
             Value must be between 1 and {imageDimensions.width - 1}
           </span> // Error message for invalid cols input
         )}
