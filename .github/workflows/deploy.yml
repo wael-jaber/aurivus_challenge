@@ -37,13 +37,26 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
+      # Clear the `gh-pages` branch to avoid overwriting issues
+      - name: Clear gh-pages branch
+        env:
+          GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git clone --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
+          cd gh-pages
+          rm -rf *
+          git add .
+          git commit -m "Clear gh-pages"
+          git push origin gh-pages
+
       - name: Build React App
         run: pnpm build
 
       - name: Deploy React App
         env:
           GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh-pages -d dist -r https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+        run: |
+          npx gh-pages -d dist -r https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
 
       - name: Build Storybook
         run: pnpm build-storybook
@@ -51,4 +64,5 @@ jobs:
       - name: Deploy Storybook
         env:
           GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh-pages -d storybook-static -r https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+        run: |
+          npx gh-pages -d storybook-static --dest storybook -r https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
