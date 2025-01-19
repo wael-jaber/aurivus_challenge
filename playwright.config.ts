@@ -5,6 +5,10 @@ export default defineConfig({
   timeout: 30000,
   retries: 1,
   reporter: [['html']],
+  webServer: {
+    command: 'pnpm run dev',
+    port: 5173, // Replace with your dev server's port
+  },
   use: {
     baseURL: 'http://localhost:5173',
     headless: true,

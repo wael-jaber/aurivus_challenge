@@ -7,6 +7,7 @@ test.describe('Homepage', () => {
     // Navigate to the app's homepage
     await page.goto('/');
 
+    // Simple assertion to ensure the test passes
     expect(true).toBe(true);
   });
 });
