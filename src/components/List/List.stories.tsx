@@ -1,23 +1,23 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import { List } from './List';
+import { List, ListItemRendererProps } from './List';
 import { ListItem } from '../ListItem';
+import { Cell } from '../../types';
 
-const meta = {
+const meta: Meta<typeof List<Omit<Cell, 'highlighted'>>> = {
   title: 'components/List',
-  component: List,
+  component: List as React.FC<
+    React.ComponentProps<typeof List<Omit<Cell, 'highlighted'>>>
+  >,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
-
   args: {
     onItemClick: fn(),
     onItemMouseEnter: fn(),
     onItemMouseLeave: fn(),
-    // TODO : messed up typing must fix the component which has a bug
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ItemRender: (props: any) => (
+    ItemRender: (props: ListItemRendererProps<Omit<Cell, 'highlighted'>>) => (
       <ListItem
         index={props.id}
         key={props.id}
@@ -29,7 +29,7 @@ const meta = {
       />
     ),
   },
-} satisfies Meta<typeof List>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -58,15 +58,13 @@ export const HiddenState: Story = {
 
 export const ExtraControls: Story = {
   args: {
-    AdditionalControl: () => {
-      return (
-        <div className="w-full flex">
-          <button className="text-blue-800 border-none bg-transparent ml-auto text-xs">
-            Clear All
-          </button>
-        </div>
-      );
-    },
+    AdditionalControl: () => (
+      <div className="w-full flex">
+        <button className="text-blue-800 border-none bg-transparent ml-auto text-xs">
+          Clear All
+        </button>
+      </div>
+    ),
     items: [
       { id: 1, label: 'cell1', hidden: false },
       { id: 2, label: 'cell2', hidden: false },
