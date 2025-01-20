@@ -1,30 +1,21 @@
 import React from 'react';
 
 export type ListItemRendererProps<T> = {
-  /** item onMouseEnter event callback */
   onMouseEnter: (id: number) => void;
-  /** item onMouseLeave event callback */
   onMouseLeave: (id: number) => void;
-  /** item onClick event callback */
   onClick: (id: number) => void;
 } & T;
 
-export interface ListProps<T> {
-  /** Array of items for the list */
+export interface ListProps<T extends { id: number }> {
   items: T[];
-  /** renderer component for the items */
   ItemRender: React.FC<ListItemRendererProps<T>>;
-  /** item OnClick event callback */
-  onItemClick: (index: number) => void;
-  /** item onMouseEnter event callback */
-  onItemMouseEnter: (index: number) => void;
-  /** item onMouseLeave event callback */
-  onItemMouseLeave: (index: number) => void;
-  /** additional control element will be displayed on top of the list */
+  onItemClick: (id: number) => void;
+  onItemMouseEnter: (id: number) => void;
+  onItemMouseLeave: (id: number) => void;
   AdditionalControl?: React.ComponentType;
 }
 
-export const List = <T,>({
+export const List = <T extends { id: number }>({
   items,
   ItemRender,
   onItemClick,
@@ -43,14 +34,14 @@ export const List = <T,>({
         className="w-full flex-grow max-h-full overflow-y-auto list-none"
         data-testid="list-items"
       >
-        {items.map((item, index) => (
+        {items.map((item) => (
           <ItemRender
-            key={index}
+            key={item.id}
             {...item}
-            onMouseEnter={() => onItemMouseEnter(index)}
-            onMouseLeave={() => onItemMouseLeave(index)}
-            onClick={() => onItemClick(index)}
-            data-testid={`list-item-${index}`}
+            onMouseEnter={() => onItemMouseEnter(item.id)}
+            onMouseLeave={() => onItemMouseLeave(item.id)}
+            onClick={() => onItemClick(item.id)}
+            data-testid={`list-item-${item.id}`}
           />
         ))}
       </ul>
