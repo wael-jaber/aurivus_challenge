@@ -99,13 +99,15 @@ Here are some handy commands to make your development experience smoother:
 
 ```plaintext
 aurivus_challenge/
-├── src/
-│   ├── components/     # Reusable React components
-│   ├── assets/         # Static assets like images
-│   ├── styles/         # TailwindCSS styles
-├── .devcontainer/      # Dev container configuration
-├── tests/              # Unit and E2E tests
-└── README.md           # Project documentation
+├── e2e_tests/             # End-to-end tests
+├── public/                # Public assets
+├── src/                   # Source code
+│   ├── assets/            # Static assets like images and fonts
+│   ├── components/        # Reusable React components
+│   ├── types/             # TypeScript type definitions
+│   └── main.tsx           # Application entry point
+└── test_setup/            # Test setup files
+
 ```
 
 ---
